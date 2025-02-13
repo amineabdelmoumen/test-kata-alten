@@ -1,0 +1,19 @@
+.app-content {
+    overflow: hidden;
+    height: 100%;
+}
+.selected-list {
+    margin-top: 10px;
+  }
+  
+.selected-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+  
+    &:last-child {
+      border-bottom: none;
+    }
+  }

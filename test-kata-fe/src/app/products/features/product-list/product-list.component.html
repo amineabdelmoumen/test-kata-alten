@@ -1,0 +1,101 @@
+<h1 class="text-center">Liste des produits</h1>
+
+<p-button label="Créer produit" (onClick)="onCreate()" class="block text-center"/>
+
+<!-- Product List -->
+<p-dataView #dv [value]="paginatedProducts()">
+    <ng-template pTemplate="list" let-products>
+        @for (product of products; track product) {
+            <p-card class="block mb-2 shadow-3">
+                <div class="grid">
+                    <!-- Product Image -->
+                    @if (product.image) {
+                        <div class="col-3">
+                            <img 
+                                [src]="product.image" 
+                                [alt]="product.name" 
+                                class="w-full border-round" 
+                                style="max-height: 150px; object-fit: cover;"
+                            >
+                        </div>
+                    }
+                    
+                    <!-- Product Details -->
+                    <div class="col" [ngClass]="{ 'col-9': product.image }">
+                        <div class="grid">
+                            <div class="col-8">
+                                <span class="font-medium text-secondary text-sm">{{ product.category }}</span>
+                                <div class="text-lg font-medium text-900 mt-2">{{ product.name }}</div>
+                                <p class="text-color-secondary mt-2">{{ product.description }}</p>
+                            </div>
+                            
+                            <div class="col-4 text-right">
+                                <div class="flex flex-column gap-2">
+                                    <div>
+                                        <span class="font-bold">Prix:</span> 
+                                        {{ product.price | currency:'EUR' }}
+                                    </div>
+                                    <div>
+                                        <span class="font-bold">Quantité:</span> 
+                                        {{ product.quantity }}
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Additional Info -->
+                        <div class="grid mt-3">
+                            <div class="col-6">
+                                <small class="text-color-secondary">
+                                    <i class="pi pi-calendar"></i>
+                                    Créé le: {{ product.createdAt | date:'dd/MM/yyyy' }}
+                                </small>
+                            </div>
+                            <div class="col-6 text-right">
+                                <small class="text-color-secondary">
+                                    <i class="pi pi-history"></i>
+                                    Modifié le: {{ product.updatedAt | date:'dd/MM/yyyy' }}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <ng-template pTemplate="footer">
+                    <div class="flex gap-3 mt-1">
+                        <p-button label="Modifier" severity="secondary" (onClick)="onUpdate(product)"/>
+                        <p-button label="Supprimer" severity="danger" (onClick)="onDelete(product)" />
+                        <p-button 
+                            label="Ajouter au panier" 
+                            severity="primary" 
+                            (onClick)="onSelectProduct(product)"
+                            [disabled]="product.quantity === 0"
+                        />
+                    </div>
+                </ng-template>
+            </p-card>
+        }
+    </ng-template>
+</p-dataView>
+
+<!-- Rest of your existing code (pagination and dialog) -->
+<!-- Pagination -->
+<p-paginator 
+    [rows]="rowsPerPage" 
+    [totalRecords]="totalRecords" 
+    (onPageChange)="onPageChange($event)"
+    [rowsPerPageOptions]="[5, 10, 20]">
+</p-paginator>
+
+
+<!-- Product Form Dialog -->
+<p-dialog [(visible)]="isDialogVisible"
+    [style]="{ width: '50vw' }"
+    header="Ajout/Edition produit">
+    <app-product-form
+        [product]="editedProduct()"
+        (save)="onSave($event)"
+        (cancel)="onCancel()"
+    />
+</p-dialog>

@@ -1,0 +1,64 @@
+<p-toolbar [style]="{ height: '100px' }">
+    <div class="p-toolbar-group-start">
+        <img src="assets/icons/icon-72x72.png" alt="logo" />
+    </div>
+    <div class="p-toolbar-group-center">
+        {{ title }}
+    </div>
+    <div class="p-toolbar-group-end" style="position: relative; display: inline-block;">
+        <!-- Shopping Cart Icon -->
+        <i 
+            class="pi pi-shopping-cart" 
+            style="font-size: 2rem; color: #333; cursor: pointer;" 
+            (click)="toggleCartSidebar()">
+        </i>
+        <!-- Cart Badge -->
+        <span 
+            class="cart-badge" 
+            style="position: absolute; top: -5px; right: -10px; background-color: red; color: white; font-size: 14px; font-weight: bold; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; border: 2px solid white;">
+            {{ cartItemCount }} <!-- Bind the cart item count here -->
+        </span>
+    </div>
+</p-toolbar>
+
+<!-- Sidebar for Selected Products -->
+<p-dialog 
+    [(visible)]="isCartSidebarVisible" 
+    position="right" 
+    [style]="{ width: '50vw' }"
+    [modal]="true">
+    <h2>Produits sélectionnés</h2>
+    @if (selectedProducts().length > 0) {
+        <div class="selected-list">
+            @for (product of selectedProducts(); track product) {
+                <div class="selected-item">
+                    <span>{{ product.name }}</span>
+                    <p-button 
+                        icon="pi pi-times" 
+                        severity="danger" 
+                        (onClick)="removeProductFromCart(product)"
+                        class="ml-2">
+                    </p-button>
+                </div>
+            }
+        </div>
+    } @else {
+        <p>Aucun produit sélectionné.</p>
+    }
+</p-dialog>
+
+
+<p-splitter 
+    [panelSizes]="[20, 80]" 
+    [style]="{ height: 'calc(100vh - 100px)' }">
+    <ng-template pTemplate>
+        <div class="w-full">
+            <app-panel-menu />
+        </div>
+    </ng-template>
+    <ng-template pTemplate>
+        <div class="w-full app-content">
+            <router-outlet></router-outlet>
+        </div>
+    </ng-template>
+</p-splitter>

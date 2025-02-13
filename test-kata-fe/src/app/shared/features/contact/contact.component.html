@@ -1,0 +1,44 @@
+<form #form="ngForm" (ngSubmit)="onSave()">
+    <!-- Email Field (Required and 300 characters max) -->
+    <div class="form-field mb-4">
+      <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+      <input pInputText
+        type="email"
+        id="email"
+        name="email"
+        [(ngModel)]="newContact().email"
+        required
+        #email="ngModel"
+        maxlength="300"
+        placeholder="Entrez votre email"
+        class="p-inputtext w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"/>
+
+      <!-- Validation message for email -->
+      <small *ngIf="isSubmitted && email.invalid && email.touched" class="p-error text-red-500 text-xs mt-1">
+        Email is required and must be a valid email address.
+      </small>
+    </div>
+    
+    <!-- Message Field (Required) -->
+    <div class="form-field mb-4">
+      <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+      <textarea pInputTextarea 
+        id="message"
+        name="message"
+        rows="5"
+        [(ngModel)]="newContact().message"
+        required
+        #message="ngModel"
+        placeholder="Votre message ici"
+        class="p-inputtextarea w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+      </textarea>
+      <small *ngIf="isSubmitted && message.invalid && message.touched" class="p-error text-red-500 text-xs mt-1">
+        Message is required.
+      </small>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="flex justify-content-end">
+      <p-button type="submit" [disabled]="!form.valid" label="Envoyer" severity="success" class="w-150"/>
+    </div>
+</form>

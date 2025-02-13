@@ -1,0 +1,29 @@
+:host {
+    display: block;
+    height: 100%;
+    overflow: auto;
+}
+:host ::ng-deep {
+    .p-card {
+      .p-card-body {
+        padding: 1.5rem;
+      }
+      
+      .p-card-content {
+        padding: 0;
+      }
+      
+      .p-card-footer {
+        padding: 1rem 0 0 0;
+        border-top: 1px solid #eee;
+      }
+    }
+    
+    .grid {
+      margin: 0 -0.5rem;
+      
+      .col {
+        padding: 0 0.5rem;
+      }
+    }
+  }
